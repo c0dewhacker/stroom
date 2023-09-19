@@ -22,7 +22,6 @@ dependencies {
     implementation libs.jakarta_validation_api
     implementation libs.javax_inject
     implementation libs.jaxb_api
-    implementation libs.kafka_clients
     implementation libs.restygwt
     implementation libs.saxon_he
     implementation libs.slf4j_api
