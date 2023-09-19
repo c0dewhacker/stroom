@@ -187,16 +187,16 @@ public class ConfigMapper {
     @Inject
     public ConfigMapper(final ConfigHolder configHolder) {
         this(NullSafe.getAsOptional(configHolder, ConfigHolder::getBootStrapConfig)
-                        .orElseGet(AppConfig::new),
-                AppConfig::new);
+                        .orElseGet(() -> new AppConfig()),
+                () -> new AppConfig());
     }
 
     public ConfigMapper() {
-        this(new AppConfig(), AppConfig::new);
+        this(new AppConfig(), () -> new AppConfig());
     }
 
     public ConfigMapper(final AppConfig bootstrapConfig) {
-        this(bootstrapConfig, AppConfig::new);
+        this(bootstrapConfig, () -> new AppConfig());
     }
 
     // pkg private for testing

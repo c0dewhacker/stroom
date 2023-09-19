@@ -18,6 +18,7 @@ import stroom.importexport.impl.ContentPackImportConfig;
 import stroom.importexport.impl.ExportConfig;
 import stroom.index.impl.IndexConfig;
 import stroom.index.impl.selection.VolumeConfig;
+import stroom.jdbc.impl.JDBCConfig;
 import stroom.job.impl.JobSystemConfig;
 import stroom.kafka.impl.KafkaConfig;
 import stroom.legacy.db.LegacyConfig;
@@ -78,6 +79,7 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
     public static final String PROP_NAME_INDEX = "index";
     public static final String PROP_NAME_JOB = "job";
     public static final String PROP_NAME_KAFKA = "kafka";
+    public static final String PROP_NAME_JDBC = "jdbc";
     public static final String PROP_NAME_LIFECYCLE = "lifecycle";
     public static final String PROP_NAME_LMDB_LIBRARY = "lmdbLibrary";
     public static final String PROP_NAME_LOGGING = "logging";
@@ -120,6 +122,7 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
     private final IndexConfig indexConfig;
     private final JobSystemConfig jobSystemConfig;
     private final KafkaConfig kafkaConfig;
+    private final JDBCConfig jdbcConfig;
     private final LifecycleConfig lifecycleConfig;
     private final LmdbLibraryConfig lmdbLibraryConfig;
     private final LoggingConfig loggingConfig;
@@ -165,6 +168,7 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
                 new IndexConfig(),
                 new JobSystemConfig(),
                 new KafkaConfig(),
+                new JDBCConfig(),
                 new LifecycleConfig(),
                 new LmdbLibraryConfig(),
                 new LoggingConfig(),
@@ -209,6 +213,7 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
                      @JsonProperty(PROP_NAME_INDEX) final IndexConfig indexConfig,
                      @JsonProperty(PROP_NAME_JOB) final JobSystemConfig jobSystemConfig,
                      @JsonProperty(PROP_NAME_KAFKA) final KafkaConfig kafkaConfig,
+                     @JsonProperty(PROP_NAME_JDBC) final JDBCConfig jdbcConfig,
                      @JsonProperty(PROP_NAME_LIFECYCLE) final LifecycleConfig lifecycleConfig,
                      @JsonProperty(PROP_NAME_LMDB_LIBRARY) final LmdbLibraryConfig lmdbLibraryConfig,
                      @JsonProperty(PROP_NAME_LOGGING) final LoggingConfig loggingConfig,
@@ -249,6 +254,7 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
         this.indexConfig = indexConfig;
         this.jobSystemConfig = jobSystemConfig;
         this.kafkaConfig = kafkaConfig;
+        this.jdbcConfig = jdbcConfig;
         this.lifecycleConfig = lifecycleConfig;
         this.lmdbLibraryConfig = lmdbLibraryConfig;
         this.loggingConfig = loggingConfig;
@@ -376,6 +382,11 @@ public class AppConfig extends AbstractConfig implements IsStroomConfig {
     @JsonProperty(PROP_NAME_KAFKA)
     public KafkaConfig getKafkaConfig() {
         return kafkaConfig;
+    }
+
+    @JsonProperty(PROP_NAME_JDBC)
+    public JDBCConfig getJDBCConfig() {
+        return jdbcConfig;
     }
 
     @JsonProperty(PROP_NAME_LIFECYCLE)

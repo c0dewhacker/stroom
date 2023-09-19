@@ -297,6 +297,15 @@ public class ConfigProvidersModule extends AbstractModule {
     @Generated("stroom.config.global.impl.GenerateConfigProvidersModule")
     @Provides
     @SuppressWarnings("unused")
+    stroom.jdbc.impl.JDBCConfig getJDBCConfig(
+            final ConfigMapper configMapper) {
+        return configMapper.getConfigObject(
+                stroom.jdbc.impl.JDBCConfig.class);
+    }
+
+    @Generated("stroom.config.global.impl.GenerateConfigProvidersModule")
+    @Provides
+    @SuppressWarnings("unused")
     stroom.legacy.db.LegacyConfig getLegacyConfig(
             final ConfigMapper configMapper) {
         return configMapper.getConfigObject(

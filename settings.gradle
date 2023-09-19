@@ -289,3 +289,7 @@ include 'stroom-view:stroom-view-impl'
 
 include 'stroom-ssl-test'
 include 'stroom-view:stroom-view-api'
+include 'stroom-job:stroom-jdbc'
+findProject(':stroom-job:stroom-jdbc')?.name = 'stroom-jdbc'
+include 'stroom-jdbc:stroom-jdbc-impl'
+findProject(':stroom-jdbc:stroom-jdbc-impl')?.name = 'stroom-jdbc-impl'

@@ -27,6 +27,7 @@ import stroom.importexport.impl.ContentPackImportConfig;
 import stroom.importexport.impl.ExportConfig;
 import stroom.index.impl.IndexConfig;
 import stroom.index.impl.selection.VolumeConfig;
+import stroom.jdbc.impl.JDBCConfig;
 import stroom.job.impl.JobSystemConfig;
 import stroom.kafka.impl.KafkaConfig;
 import stroom.legacy.db.LegacyConfig;
@@ -929,6 +930,7 @@ class TestConfigMapper {
                 @JsonProperty(PROP_NAME_INDEX) final IndexConfig indexConfig,
                 @JsonProperty(PROP_NAME_JOB) final JobSystemConfig jobSystemConfig,
                 @JsonProperty(PROP_NAME_KAFKA) final KafkaConfig kafkaConfig,
+                @JsonProperty(PROP_NAME_JDBC) final JDBCConfig jdbcConfig,
                 @JsonProperty(PROP_NAME_LIFECYCLE) final LifecycleConfig lifecycleConfig,
                 @JsonProperty(PROP_NAME_LMDB_LIBRARY) final LmdbLibraryConfig lmdbLibraryConfig,
                 @JsonProperty(PROP_NAME_LOGGING) final LoggingConfig loggingConfig,
@@ -984,6 +986,7 @@ class TestConfigMapper {
                     indexConfig,
                     jobSystemConfig,
                     kafkaConfig,
+                    jdbcConfig,
                     lifecycleConfig,
                     lmdbLibraryConfig,
                     loggingConfig,

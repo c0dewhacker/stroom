@@ -2409,6 +2409,22 @@ export type IntegerField = AbstractField;
 
 export type IpV4AddressField = AbstractField;
 
+export interface JDBCConfigDoc {
+  /** @format int64 */
+  createTimeMs?: number;
+  createUser?: string;
+  data?: string;
+  description?: string;
+  name?: string;
+  type?: string;
+
+  /** @format int64 */
+  updateTimeMs?: number;
+  updateUser?: string;
+  uuid?: string;
+  version?: string;
+}
+
 export interface Job {
   advanced?: boolean;
 
@@ -5077,6 +5093,62 @@ export class HttpClient<SecurityDataType = unknown> {
  * Various APIs for interacting with Stroom and its data
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  jdbcDatabaseConfig = {
+    /**
+     * No description
+     *
+     * @tags JDBC Database Config
+     * @name DownloadJdbcConfig
+     * @summary Download a JDBCConfig doc
+     * @request POST:/JDBCDatabaseConfig/v1/download
+     * @secure
+     */
+    downloadJdbcConfig: (data: DocRef, params: RequestParams = {}) =>
+      this.request<any, ResourceGeneration>({
+        path: `/JDBCDatabaseConfig/v1/download`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags JDBC Database Config
+     * @name FetchJdbcConfig
+     * @summary Fetch a JDBCConfig doc by its UUID
+     * @request GET:/JDBCDatabaseConfig/v1/{uuid}
+     * @secure
+     */
+    fetchJdbcConfig: (uuid: string, params: RequestParams = {}) =>
+      this.request<any, JDBCConfigDoc>({
+        path: `/JDBCDatabaseConfig/v1/${uuid}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags JDBC Database Config
+     * @name UpdateJdbcConfig
+     * @summary Update a JDBCConfig doc
+     * @request PUT:/JDBCDatabaseConfig/v1/{uuid}
+     * @secure
+     */
+    updateJdbcConfig: (uuid: string, data: JDBCConfigDoc, params: RequestParams = {}) =>
+      this.request<any, JDBCConfigDoc>({
+        path: `/JDBCDatabaseConfig/v1/${uuid}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+  };
   account = {
     /**
      * No description

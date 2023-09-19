@@ -54,6 +54,7 @@ dependencies {
     implementation project(':stroom-statistics:stroom-statistics-impl-sql')
     implementation project(':stroom-util')
     implementation project(':stroom-util-shared')
+    implementation project(':stroom-jdbc:stroom-jdbc-impl')
 
     implementation libs.commons_text
     implementation libs.dropwizard_configuration

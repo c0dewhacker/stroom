@@ -14,6 +14,70 @@ servers:
 security:
 - ApiKeyAuth: []
 paths:
+  /JDBCDatabaseConfig/v1/download:
+    post:
+      operationId: downloadJDBCConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocRef'
+        description: docRef
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceGeneration'
+          description: default response
+      summary: Download a JDBCConfig doc
+      tags:
+      - JDBC Database Config
+  /JDBCDatabaseConfig/v1/{uuid}:
+    get:
+      operationId: fetchJDBCConfig
+      parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JDBCConfigDoc'
+          description: default response
+      summary: Fetch a JDBCConfig doc by its UUID
+      tags:
+      - JDBC Database Config
+    put:
+      operationId: updateJDBCConfig
+      parameters:
+      - in: path
+        name: uuid
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JDBCConfigDoc'
+        description: doc
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JDBCConfigDoc'
+          description: default response
+      summary: Update a JDBCConfig doc
+      tags:
+      - JDBC Database Config
   /account/v1:
     get:
       operationId: listAccounts
@@ -10216,6 +10280,31 @@ components:
       type: object
       allOf:
       - $ref: '#/components/schemas/AbstractField'
+    JDBCConfigDoc:
+      type: object
+      properties:
+        createTimeMs:
+          type: integer
+          format: int64
+        createUser:
+          type: string
+        data:
+          type: string
+        description:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        updateTimeMs:
+          type: integer
+          format: int64
+        updateUser:
+          type: string
+        uuid:
+          type: string
+        version:
+          type: string
     Job:
       type: object
       properties:

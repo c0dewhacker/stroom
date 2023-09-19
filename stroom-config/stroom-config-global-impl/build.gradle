@@ -52,6 +52,7 @@ dependencies {
     implementation project(':stroom-job:stroom-job-api')
     implementation project(':stroom-util')
     implementation project(':stroom-util-shared')
+    implementation project(':stroom-jdbc:stroom-jdbc-impl')
 
     implementation libs.dropwizard_lifecycle
     implementation libs.dropwizard_metrics_annotation
