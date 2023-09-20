@@ -57,6 +57,8 @@ import stroom.importexport.client.gin.ImportExportConfigGinjector;
 import stroom.importexport.client.gin.ImportExportConfigModule;
 import stroom.index.client.gin.IndexGinjector;
 import stroom.index.client.gin.IndexModule;
+import stroom.jdbc.client.gin.JDBCConfigGinjector;
+import stroom.jdbc.client.gin.JDBCConfigModule;
 import stroom.kafka.client.gin.KafkaConfigGinjector;
 import stroom.kafka.client.gin.KafkaConfigModule;
 import stroom.main.client.presenter.MainPresenter;
@@ -120,6 +122,7 @@ import com.gwtplatform.mvp.client.proxy.PlaceManager;
         ImportExportConfigModule.class,
         IndexModule.class,
         KafkaConfigModule.class,
+        JDBCConfigModule.class,
         MonitoringModule.class,
         PipelineModule.class,
         PluginsModule.class,
@@ -158,6 +161,7 @@ public interface AppGinjectorUser extends
         ImportExportConfigGinjector,
         IndexGinjector,
         KafkaConfigGinjector,
+        JDBCConfigGinjector,
         MonitoringGinjector,
         PipelineGinjector,
         PluginsGinjector,

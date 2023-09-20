@@ -113,6 +113,7 @@
     <inherits name="stroom.processor.Processor"/>
     <inherits name="stroom.xmlschema.XMLSchema" />
     <inherits name="stroom.kafka.KafkaConfig" />
+    <inherits name="stroom.jdbc.JDBCConfig" />
     <inherits name="stroom.pool.Pool" />
     <inherits name="stroom.cache.Cache" />
     <inherits name="stroom.feed.Feed" />
