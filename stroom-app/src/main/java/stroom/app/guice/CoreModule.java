@@ -64,6 +64,8 @@ public class CoreModule extends AbstractModule {
         install(new stroom.index.impl.db.IndexDaoModule());
         install(new stroom.job.impl.JobSystemModule());
         install(new stroom.job.impl.db.JobDaoModule());
+        install(new stroom.jdbc.impl.JDBCConfigHandlerModule());
+        install(new stroom.jdbc.impl.JDBCConfigModule());
         install(new stroom.kafka.impl.KafkaConfigHandlerModule());
         install(new stroom.kafka.impl.KafkaConfigModule());
         install(new stroom.kafka.pipeline.KafkaPipelineModule());
