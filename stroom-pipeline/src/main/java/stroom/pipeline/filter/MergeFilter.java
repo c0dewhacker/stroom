@@ -17,9 +17,12 @@
 package stroom.pipeline.filter;
 
 import stroom.pipeline.errorhandler.ProcessException;
+import stroom.pipeline.factory.PipelineProperty;
 import stroom.pipeline.xml.event.simple.StartElement;
 import stroom.pipeline.xml.event.simple.StartPrefixMapping;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -30,16 +33,25 @@ import java.util.Deque;
  * Merges XML that has been split into separate XML instances.
  */
 public class MergeFilter extends AbstractXMLFilter {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SplitFilter.class);
     private final Deque<StartPrefixMapping> prefixDeque = new ArrayDeque<>();
     private boolean started;
-    private int depth;
     private StartElement root;
+
+    private int depth;
+    private int mergeDepth;
+    private boolean mergeContainerStarted = false;
+    private String mergeContainerURI;
+    private String mergeContainerLocalName;
+    private String mergeContainerQName;
+
+    private boolean firstOccurrence = true;
 
     @Override
     public void startStream() {
         try {
             depth = 0;
+            firstOccurrence = true;
         } finally {
             super.startStream();
         }
@@ -65,6 +77,7 @@ public class MergeFilter extends AbstractXMLFilter {
             if (started) {
                 // End root element.
                 if (root != null) {
+                    System.out.println("ending root element: " + root.getLocalName());
                     super.endElement(root.getUri(), root.getLocalName(), root.getQName());
                 }
 
@@ -73,7 +86,6 @@ public class MergeFilter extends AbstractXMLFilter {
                     final StartPrefixMapping prefixMapping = prefixDeque.pop();
                     super.endPrefixMapping(prefixMapping.getPrefix());
                 }
-
                 // End the document.
                 super.endDocument();
             }
@@ -93,6 +105,7 @@ public class MergeFilter extends AbstractXMLFilter {
         // Only write one start document event.
         if (!started) {
             started = true;
+
             super.startDocument();
         }
     }
@@ -154,34 +167,52 @@ public class MergeFilter extends AbstractXMLFilter {
      * @see stroom.pipeline.filter.AbstractXMLFilter#startElement(java.lang.String,
      * java.lang.String, java.lang.String, org.xml.sax.Attributes)
      */
+
     @Override
     public void startElement(final String uri, final String localName, final String qName, final Attributes atts)
             throws SAXException {
         depth++;
+        LOGGER.debug("Start Element: " + localName + ", Depth: " + depth + ": MergeStarted: " + mergeContainerStarted);
 
-        if (depth > 1) {
+        if (depth == mergeDepth) {
+            mergeContainerStarted = true;
+            mergeContainerURI = uri;
+            mergeContainerLocalName = localName;
+            mergeContainerQName = qName;
+            if(firstOccurrence) {
+                super.startElement(uri, localName, qName, atts);
+                firstOccurrence = false;
+            }
+        } else if (depth > mergeDepth && mergeContainerStarted) {
+            LOGGER.debug("Merging Element: " + localName);
             super.startElement(uri, localName, qName, atts);
-        } else if (root == null) {
-            root = new StartElement(uri, localName, qName, atts);
+        } else {
+            // there should be a case in here to handle when an Element == mergeDepth but != mergeContainerLocalName
+            // TODO: Handle cases where there may be different elements at
+            //  the same mergeDepth that we need to handle somehow
             super.startElement(uri, localName, qName, atts);
         }
     }
 
-    /**
-     * @param uri       the Namespace URI, or the empty string if the element has no
-     *                  Namespace URI or if Namespace processing is not being
-     *                  performed
-     * @param localName the local name (without prefix), or the empty string if
-     *                  Namespace processing is not being performed
-     * @param qName     the qualified XML name (with prefix), or the empty string if
-     *                  qualified names are not available
-     * @throws org.xml.sax.SAXException any SAX exception, possibly wrapping another exception
-     * @see stroom.pipeline.filter.AbstractXMLFilter#endElement(java.lang.String,
-     * java.lang.String, java.lang.String)
-     */
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        if (depth > 1) {
+        LOGGER.debug("End Element: " + localName + ", Depth: " + depth + ": MergeStarted: " + mergeContainerStarted );
+
+        if (depth > mergeDepth && mergeContainerStarted) {
+            LOGGER.debug("Ending Merge Element: " + localName);
+            super.endElement(uri, localName, qName);
+        // this may be an issue where merge depth is 0
+        } else if(depth == mergeDepth -1 && mergeContainerStarted) {
+            LOGGER.debug("Adding final EndElement: " + localName);
+            super.endElement(mergeContainerURI, mergeContainerLocalName, mergeContainerQName);
+            super.endElement(uri, localName, qName);
+            mergeContainerStarted = false;
+        }
+        else if (mergeContainerStarted && uri.equals(mergeContainerURI) && localName.equals(mergeContainerLocalName) && qName.equals(mergeContainerQName)) {
+            // Do nothing.
+            LOGGER.debug("Skipping over Element: " + localName);
+
+        } else {
             super.endElement(uri, localName, qName);
         }
         depth--;
@@ -218,5 +249,15 @@ public class MergeFilter extends AbstractXMLFilter {
         if (depth > 0) {
             super.ignorableWhitespace(ch, start, length);
         }
+    }
+
+
+    @PipelineProperty(
+            description = "The depth of XML elements to merge at.",
+            defaultValue = "1",
+            displayPriority = 1)
+    public void setMergeDepth(final int mergeDepth) {
+        // Add a fudge in here to cope with legacy depth being 0 based.
+        this.mergeDepth = mergeDepth;
     }
 }
