@@ -1,6 +1,5 @@
 package stroom.pipeline.filter;
 
-import org.junit.jupiter.api.BeforeEach;
 
 import stroom.pipeline.errorhandler.ErrorReceiverProxy;
 import stroom.pipeline.errorhandler.FatalErrorReceiver;
@@ -8,19 +7,22 @@ import stroom.pipeline.util.ProcessorUtil;
 import stroom.test.common.StroomPipelineTestFileUtil;
 import stroom.test.common.util.test.StroomUnitTest;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringWriter;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+
 
 
 class TestMergeFilter extends StroomUnitTest {

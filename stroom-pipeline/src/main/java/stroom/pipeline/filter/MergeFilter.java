@@ -33,6 +33,7 @@ import java.util.Deque;
  * Merges XML that has been split into separate XML instances.
  */
 public class MergeFilter extends AbstractXMLFilter {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SplitFilter.class);
     private final Deque<StartPrefixMapping> prefixDeque = new ArrayDeque<>();
     private boolean started;
@@ -179,7 +180,7 @@ public class MergeFilter extends AbstractXMLFilter {
             mergeContainerURI = uri;
             mergeContainerLocalName = localName;
             mergeContainerQName = qName;
-            if(firstOccurrence) {
+            if (firstOccurrence) {
                 super.startElement(uri, localName, qName, atts);
                 firstOccurrence = false;
             }
@@ -196,22 +197,24 @@ public class MergeFilter extends AbstractXMLFilter {
 
     @Override
     public void endElement(final String uri, final String localName, final String qName) throws SAXException {
-        LOGGER.debug("End Element: " + localName + ", Depth: " + depth + ": MergeStarted: " + mergeContainerStarted );
+
+        LOGGER.debug("End Element: " + localName + ", Depth: " + depth + ": MergeStarted: " + mergeContainerStarted);
 
         if (depth > mergeDepth && mergeContainerStarted) {
             LOGGER.debug("Ending Merge Element: " + localName);
             super.endElement(uri, localName, qName);
-        // this may be an issue where merge depth is 0
-        } else if(depth == mergeDepth -1 && mergeContainerStarted) {
+            // this may be an issue where merge depth is 0
+        } else if (depth == mergeDepth - 1 && mergeContainerStarted) {
             LOGGER.debug("Adding final EndElement: " + localName);
             super.endElement(mergeContainerURI, mergeContainerLocalName, mergeContainerQName);
             super.endElement(uri, localName, qName);
             mergeContainerStarted = false;
-        }
-        else if (mergeContainerStarted && uri.equals(mergeContainerURI) && localName.equals(mergeContainerLocalName) && qName.equals(mergeContainerQName)) {
+        } else if (mergeContainerStarted
+                && uri.equals(mergeContainerURI)
+                && localName.equals(mergeContainerLocalName)
+                && qName.equals(mergeContainerQName)) {
             // Do nothing.
             LOGGER.debug("Skipping over Element: " + localName);
-
         } else {
             super.endElement(uri, localName, qName);
         }
