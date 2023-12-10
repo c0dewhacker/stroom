@@ -8481,6 +8481,7 @@ components:
           - PIPELINE_SEARCH_OUTPUT
           - PIPELINE_SOLR
           - PIPELINE_SPLIT
+          - PIPELINE_MERGE
           - PIPELINE_STATISTICS
           - PIPELINE_STREAM
           - PIPELINE_STROOM_STATS
@@ -8969,6 +8970,7 @@ components:
           - PIPELINE_SEARCH_OUTPUT
           - PIPELINE_SOLR
           - PIPELINE_SPLIT
+          - PIPELINE_MERGE
           - PIPELINE_STATISTICS
           - PIPELINE_STREAM
           - PIPELINE_STROOM_STATS
@@ -9162,6 +9164,7 @@ components:
           - PIPELINE_SEARCH_OUTPUT
           - PIPELINE_SOLR
           - PIPELINE_SPLIT
+          - PIPELINE_MERGE
           - PIPELINE_STATISTICS
           - PIPELINE_STREAM
           - PIPELINE_STROOM_STATS
@@ -11363,6 +11366,7 @@ components:
           - PIPELINE_SEARCH_OUTPUT
           - PIPELINE_SOLR
           - PIPELINE_SPLIT
+          - PIPELINE_MERGE
           - PIPELINE_STATISTICS
           - PIPELINE_STREAM
           - PIPELINE_STROOM_STATS
@@ -12330,6 +12334,7 @@ components:
           - PIPELINE_SEARCH_OUTPUT
           - PIPELINE_SOLR
           - PIPELINE_SPLIT
+          - PIPELINE_MERGE
           - PIPELINE_STATISTICS
           - PIPELINE_STREAM
           - PIPELINE_STROOM_STATS
