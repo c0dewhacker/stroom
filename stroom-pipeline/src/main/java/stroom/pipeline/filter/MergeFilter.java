@@ -17,9 +17,13 @@
 package stroom.pipeline.filter;
 
 import stroom.pipeline.errorhandler.ProcessException;
+import stroom.pipeline.factory.ConfigurableElement;
 import stroom.pipeline.factory.PipelineProperty;
+import stroom.pipeline.shared.data.PipelineElementType;
+import stroom.pipeline.shared.data.PipelineElementType.Category;
 import stroom.pipeline.xml.event.simple.StartElement;
 import stroom.pipeline.xml.event.simple.StartPrefixMapping;
+import stroom.svg.shared.SvgImage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +36,16 @@ import java.util.Deque;
 /**
  * Merges XML that has been split into separate XML instances.
  */
+@ConfigurableElement(
+        type = "MergeFilter",
+        description = """
+                 Merges XML that has been split into separate XML instances.
+                """,
+        category = Category.FILTER,
+        roles = {
+                PipelineElementType.ROLE_TARGET,
+                PipelineElementType.ROLE_HAS_TARGETS},
+        icon = SvgImage.PIPELINE_MERGE)
 public class MergeFilter extends AbstractXMLFilter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SplitFilter.class);
